@@ -1,18 +1,14 @@
-from vector import Vector
+from vector import Vector, ShapeException
 
 import random
-
-
-class ShapeException(Exception):
-    pass
 
 
 class Matrix:
 
     def __init__(self, vectors, shape=None):
         if vectors:
-            self.shape = self.check_vectors(vectors)
-            self.values = vectors
+            self.vectors = self.check_vectors(vectors)
+            self.shape = (len(vectors), len(vectors[0]))
 
         else:
             if shape:
@@ -28,18 +24,18 @@ class Matrix:
         values = []
 
         for y_val in range(shape[0]):
-            values.append(Vector.zeroes(shape[1]))
+            values.append([0 for _ in range(shape[1])])
 
         return cls(values)
 
     @classmethod
-    def random(cls, shape, random = random.Random(), start=0, end=10):
+    def random(cls, shape, start=0, end=10, random = random.Random()):
         """
         takes a random number generator
         and fills a matrix of a given shape
         with random numbers
         """
-        values = []
+        vectors = []
         try:
             cls.check_shape(cls, shape)
         except ShapeException:
@@ -47,7 +43,7 @@ class Matrix:
 
 
         for y_len in range(shape[0]):
-            values.append(Vector.random(shape, random, start, end))
+            vectors.append([random.randint(start,end) for _ in range(shape[1])])
 
         return cls(vectors)
 
@@ -59,28 +55,35 @@ class Matrix:
         else raises ShapeException
         """
         x_len = len(vectors)
-        type_check_vect = True
-        type_check_mat = True
-        for item in vectors:
-            type_check_vect = type_check_vect and type(item) == type(1)
-            type_check_matrix = type_check_mat and type(item) == type([])
+        vect_type = [item for item in vectors if type(item) == type(Vector)]
+        list_type = [item for item in vectors if type(item) == type([])]
+        try:
+            if list_type:
+                lengths = [len(item) for item in vectors]
 
-        if type_check_vect:
-            return x_len, 0
+                for item in lengths:
+                    if item != lengths[0]:
+                        raise ShapeException("unsuitable vectors used")
 
-        if type_check_mat:
+                return [Vector(item) for item in vectors]
 
-            len_check_mat = True
-            ref = len(vectors[0])
+            if vect_type:
+                shapes = [time.shape for item in vectors]
 
-            for item in vectors:
-                if len(item) != ref:
-                    len_check_mat = False
+                for item in shapes:
+                    if item != shapes[0]:
+                        raise ShapeException("unsuitable vectors used")
 
-            if len_check_mat:
-                return x_len, ref
+                return vectors
 
-        raise ShapeException("Unsuitable vectors used")
+        except ShapeException:
+            raise
+
+        except Exceptions:
+
+            return ValueError("bad initial vectors")
+
+
 
 
     def check_shape(self, shape):
@@ -102,7 +105,8 @@ class Matrix:
 
     def __eq__(self, other):
         try:
-            return self.shape == other.shape and self.values == other.values
+            return self.shape == other.shape and self.vectors == other.vectors
+
         except Exception:
             raise
 
@@ -117,10 +121,25 @@ class Matrix:
                 raise
 
         if type(other) == type(self):
-        try:
-            return self.matrix_mult(other)
-        except ShapeException:
-            raise
+            try:
+                return self.matrix_mult(other)
+            except ShapeException:
+                raise
+
+    @property
+    def transpose(self):
+        return Matrix([[row.values[i] for row in self.vectors]
+                        for i in range(self.shape[1])])
+
+    def scalar_mult(self, other):
+        return Matrix([vector * other for vector in self.vectors])
+
+    def vector_mult(self, other):
+        return Vector([vector.dot(other) for vector in self.vectors])
+
+    def matrix_mult(self, other):
+        return Matrix([[vect1.dot(vect2) for vect2 in other.transpose.vectors]
+                       for vect1 in self.vectors])
 
     def __pow__(self, other):
         if type(other) != type(1):
@@ -138,3 +157,9 @@ class Matrix:
 
         except Exception:
             raise
+
+    def __str__(self):
+        return "\n".join([vector.__str__() for vector in self.vectors])
+
+    def __repr__(self):
+        return self.__str__()
