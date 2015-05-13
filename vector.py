@@ -22,6 +22,9 @@ class Vector:
 
     @classmethod
     def zeroes(cls, length):
+        """
+        makes a zero vector of the given length
+        """
         if type(length) != type(1):
             raise TypeError("input length is not an integer")
 
@@ -29,6 +32,10 @@ class Vector:
 
     @classmethod
     def random(cls, length, start, end, random=random.Random()):
+        """
+        makes a vector of the given length
+        with entries from random.randint(start, end)
+        """
         if type(length) != type(1) or \
                 type(start) != type(1) or \
                 type(end) != type(1):
@@ -38,6 +45,10 @@ class Vector:
         return cls([random.randint(start, end) for _ in range(length)])
 
     def check_shape(self, other):
+        """
+        checks if the shapes match between
+        the vector and other
+        """
         return self.shape == other.shape
 
     def __add__(self, other):
@@ -56,6 +67,10 @@ class Vector:
                                                                 type(other)))
 
     def scalar_mult(self, other):
+        """
+        multiplies the vector by a scalar
+        and returns the result
+        """
         return Vector([val * other for val in self.values])
 
     def __eq__(self, other):
@@ -72,6 +87,10 @@ class Vector:
 
     @property
     def magnitude(self):
+        """
+        calculates the magnitude of the vector
+        in the Euclidean norm
+        """
         return math.sqrt(dot(self, self))
 
     def __str__(self):
