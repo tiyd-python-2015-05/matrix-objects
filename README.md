@@ -66,7 +66,7 @@ Vector([1, 5])
 Also think about whether Vector might inherit from Matrix or vice-versa.
 Vectors can often be treated as 1-dimensional matrices.
 
-Solve the problem in [the Population Growth notebook](Population Growth.ipynb)
+Solve the problem in [the Population Growth notebook](Population Growth.ipynb).
 
 ## Hard Mode
 
