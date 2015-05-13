@@ -1,25 +1,31 @@
 class ShapeException(Exception):
     pass
 
+
 class Vector():
     def __init__(self, my_list):
         self.my_list = my_list
         self.my_shape = self.shape()
+
     def __add__(self, other):
         if self.shape() != other.shape():
             raise ShapeException
-        return Vector([self.my_list[i] + other.my_list[i] for i in range(self.shape()[0])])
+        return Vector([self.my_list[i] + other.my_list[i]
+                       for i in range(self.shape()[0])])
 
     def __sub__(self, other):
         other = other * -1
         return self + other
+
     def __mul__(self, other):
         if type(other) is int or type(other) is float:
             return Vector([i * other for i in self.my_list])
         else:
             return None
+
     def __eq__(self, other):
         return self.my_list == other.my_list
+
     def __repr__(self):
         return 'Vector({})'.format(self.my_list)
 
@@ -31,28 +37,36 @@ class Vector():
             return (len(self.my_list),)
         except:
             raise ValueError('Not a 1d vector')
+
     def dot(self, other):
         if self.shape() != other.shape():
             raise ShapeException
-        return sum([self.my_list[i] * other.my_list[i] for i in range(len(self.my_list))])
+        return sum([self.my_list[i] * other.my_list[i]
+                    for i in range(len(self.my_list))])
+
     def magnitude(self):
         return self.dot(self)**0.5
+
 
 class Matrix():
     def __init__(self, my_list):
         self.my_list = my_list
         self.my_shape = self.shape()
+
     def __add__(self, other):
         if self.shape() != other.shape():
             raise ShapeException
-        return Matrix([self.my_list[i] + other.my_list[i] for i in range(self.shape()[0])])
+        return Matrix([self.my_list[i] + other.my_list[i]
+                       for i in range(self.shape()[0])])
 
     def __sub__(self, other):
         other = other * -1
         return self + other
+
     def __mul__(self, other):
         if type(other) is int or type(other) is float:
             return Matrix([[i * other for i in row] for row in self.my_list])
+
         elif type(other) is Vector:
             if self.shape()[1] != other.shape()[0]:
                 raise ShapeException
@@ -60,25 +74,28 @@ class Matrix():
             step1 = [[val * other.my_list[idx] for idx, val in enumerate(row)]
                      for row in self.my_list]
             return Vector([sum(x) for x in step1])
+
         elif type(other) is Matrix:
             if self.shape()[1] != other.shape()[0]:
                 raise ShapeException
 
-            y_transposed = [[row[i] for row in other.my_list] for i in range(len(other.my_list[0]))]
+            y_transposed = [[row[i] for row in other.my_list]
+                            for i in range(len(other.my_list[0]))]
 
-            return Matrix([[Vector(row).dot(Vector(col)) for col in y_transposed] for row in self.my_list])
+            return Matrix([[Vector(row).dot(Vector(col))
+                            for col in y_transposed] for row in self.my_list])
 
         else:
             return None
+
     def __eq__(self, other):
         return self.my_list == other.my_list
+
     def __repr__(self):
         return 'Vector({})'.format(self.my_list)
-
-
 
     def shape(self):
         try:
             return (len(self.my_list), len(self.my_list[0]))
-        except (TypeError,IndexError):
+        except (TypeError, IndexError):
             raise ValueError('Not a 2d matrix')
