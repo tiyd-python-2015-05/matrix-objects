@@ -8,11 +8,11 @@ class Matrix:
     def __init__(self, vectors, shape=None):
         if vectors:
             self.vectors = self.check_vectors(vectors)
-            self.shape = (len(vectors), len(vectors[0]))
+            self.shape = (len(vectors), self.vectors[0].shape[0])
 
         else:
             if shape:
-                self.shape = check_shape(shape)
+                self.shape = self.check_shape(shape)
                 return Matrix.zeroes(shape)
 
     @classmethod
@@ -61,15 +61,17 @@ class Matrix:
 
     def check_vectors(self, vectors):
         """
-        if possible calculates the shape
-        of the matrix from the input vectors
-        else raises ShapeException
+        checks the input vectors
+        to see if they are in fact
+        lists or vectors, then checks
+        their lengths.  If they are
+        all the same length it returns
+        a list of vectors
         """
-        x_len = len(vectors)
-        vect_type = [item for item in vectors if type(item) == type(Vector)]
-        list_type = [item for item in vectors if type(item) == type([])]
+        vect_type = [item for item in vectors if isinstance(item, Vector)]
+        list_type = [item for item in vectors if isinstance(item, list)]
         try:
-            if list_type:
+            if list_type and not vect_type:
                 lengths = [len(item) for item in vectors]
 
                 for item in lengths:
@@ -78,8 +80,8 @@ class Matrix:
 
                 return [Vector(item) for item in vectors]
 
-            if vect_type:
-                shapes = [time.shape for item in vectors]
+            if vect_type and not list_type:
+                shapes = [item.shape for item in vectors]
 
                 for item in shapes:
                     if item != shapes[0]:
@@ -87,10 +89,12 @@ class Matrix:
 
                 return vectors
 
+            raise TypeError("mismatched input types")
+
         except ShapeException:
             raise
 
-        except Exceptions:
+        except Exception:
 
             return ValueError("bad initial vectors")
 
@@ -103,7 +107,7 @@ class Matrix:
         size_check = (len(shape) == 1 or len(shape) == 2)
         type_check = True
         for entry in shape:
-            type_check = type_check and type(entry) == type(1)
+            type_check = type_check and isinstance(entry, int)
 
         if not (size_check and type_check):
             raise ShapeException
@@ -119,16 +123,16 @@ class Matrix:
             raise
 
     def __mul__(self, other):
-        if type(other) == type(int) or type(other) == type(2.0):
+        if isinstance(other, int) or isinstance(other, float):
             return self.scalar_mult(other)
 
-        if type(other) == type(Vector([1])):
+        if isinstance(other, Vector):
             try:
                 return self.vector_mult(other)
             except ShapeException:
                 raise
 
-        if type(other) == type(self):
+        if isinstance(other, Matrix):
             try:
                 return self.matrix_mult(other)
             except ShapeException:
@@ -168,7 +172,7 @@ class Matrix:
         raise ShapeException
 
     def __pow__(self, other):
-        if type(other) != type(1):
+        if not isinstance(other, int):
             raise TypeError("power must be an integer")
 
         if other < 1:
@@ -188,7 +192,8 @@ class Matrix:
     def __add__(self, other):
         try:
             if self.shape == other.shape:
-                return [row1 + row2 in zip(self.vectors, other.vectors)]
+                return Matrix([row1 + row2 for row1, row2
+                               in zip(self.vectors, other.vectors)])
 
         except Exception:
             raise

@@ -10,12 +10,12 @@ class Vector:
 
     def __init__(self, arg):
 
-        if type(arg) != type([]):
+        if not isinstance(arg, list):
             raise ShapeException
 
         for item in arg:
-            if not (type(item) == type(1) or type(item) == type(2.0)):
-                raise TypeError("List items not integers or floats")
+            if not (isinstance(item, int) or isinstance(item, float)):
+                raise TypeError("List items not ints or floats")
 
         self.values = arg
         self.shape = (len(arg),)
@@ -25,8 +25,8 @@ class Vector:
         """
         makes a zero vector of the given length
         """
-        if type(length) != type(1):
-            raise TypeError("input length is not an integer")
+        if not isinstance(length, int):
+            raise TypeError("input length is not an int")
 
         return cls([0] * length)
 
@@ -36,9 +36,9 @@ class Vector:
         makes a vector of the given length
         with entries from random.randint(start, end)
         """
-        if type(length) != type(1) or \
-                type(start) != type(1) or \
-                type(end) != type(1):
+        if not (isinstance(length, int) or
+                isinstance(start, int) or
+                isinstance(end, int)):
 
             raise ValueError
 
@@ -59,7 +59,7 @@ class Vector:
         raise ShapeException
 
     def __mul__(self, other):
-        if type(other) == type(1) or type(other) == type(2.0):
+        if isinstance(other, int) or isinstance(other, float):
             return self.scalar_mult(other)
 
         else:
@@ -89,9 +89,9 @@ class Vector:
     def magnitude(self):
         """
         calculates the magnitude of the vector
-        in the Euclidean norm
+        in the E
         """
-        return math.sqrt(dot(self, self))
+        return math.sqrt(self.dot(self))
 
     def __str__(self):
         return "[" + ", ".join([str(val) for val in self.values]) + "]"
