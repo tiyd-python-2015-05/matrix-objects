@@ -52,6 +52,7 @@ def test_vector_subtract_raises_shape_exception():
 def test_vector_multiplication():
     v1 = Vector([1, 2, 3])
     assert v1 * 2 == Vector([2, 4, 6])
+    assert v1 * 2 == Vector([2, 4, 6])
 
 
 def test_vector_dot():
@@ -153,6 +154,7 @@ v3 = Vector([3, 4])
 v4 = Vector([0, 1, 2])
 def test_matrix_vector_multiply():
     assert m1 * v1 == Vector([2, 5, 4])
+    assert v1 * m1 == Vector([2, 5, 4])
     assert m2 * v2 == Vector([14, 32, 50])
     assert m3 * v3 == Vector([11, 10, 11])
     assert m4 * v4 == Vector([8, 4])
