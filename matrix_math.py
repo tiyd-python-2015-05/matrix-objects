@@ -20,6 +20,8 @@ class Vector():
             return None
     def __eq__(self, other):
         return self.my_list == other.my_list
+    def __repr__(self):
+        return 'Vector({})'.format(self.my_list)
 
     def shape(self):
         try:
@@ -30,8 +32,10 @@ class Vector():
         except:
             raise ValueError('Not a 1d vector')
     def dot(self, other):
-        pass
-        
+        if self.shape() != other.shape():
+            raise ShapeException
+        return sum([self.my_list[i] * other.my_list[i] for i in range(len(self.my_list))])
+
 class Matrix():
     def __init__(self, my_list):
         self.my_list = my_list

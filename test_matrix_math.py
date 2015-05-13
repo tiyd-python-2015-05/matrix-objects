@@ -60,7 +60,7 @@ def test_matrix_shape():
 def test_vector_eq():
     p = Vector([3,4])
     assert m == p
-    
+
 def test_vector_add():
     """
     [a b]  + [c d]  = [a+c b+d]
@@ -90,6 +90,35 @@ def test_vector_sub():
 def test_vector_sub_checks_shapes():
     """Shape rule: the vectors must be the same size."""
     m - v
+
+def test_dot():
+    """
+    dot([a b], [c d])   = a * c + b * d
+
+    dot(Vector, Vector) = Scalar
+    """
+    assert w.dot(y) == 160
+    assert m.dot(n) == 15
+    assert u.dot(z) == 0
+
+
+@raises(ShapeException)
+def test_dot_checks_shapes():
+    """Shape rule: the vectors must be the same size."""
+    v.dot(m)
+
+
+def test_vector_multiply():
+    """
+    [a b]  *  Z     = [a*Z b*Z]
+
+    Vector * Scalar = Vector
+    """
+    assert v * 0.5 == Vector([0.5, 1.5, 0])
+    assert m * 2 == Vector([6, 8])
+
+
+
 
 """
 def test_matrix_add():
