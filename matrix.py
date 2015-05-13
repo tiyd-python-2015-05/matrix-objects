@@ -16,6 +16,14 @@ class Matrix:
                 return Matrix.zeroes(shape)
 
     @classmethod
+    def generate(cls, shape, gen_func):
+        if cls.check_shape(cls, shape):
+            return cls([[gen_func() for _ in range(shape[0])]
+                    for _ in range(shape[1])])
+
+        raise ShapeException
+
+    @classmethod
     def zeroes(cls, shape):
         """
         Generates a matrix of zeroes with the given shape
@@ -138,8 +146,13 @@ class Matrix:
         return Vector([vector.dot(other) for vector in self.vectors])
 
     def matrix_mult(self, other):
-        return Matrix([[vect1.dot(vect2) for vect2 in other.transpose.vectors]
-                       for vect1 in self.vectors])
+        if self.shape == other.shape:
+            return Matrix([[vect1.dot(vect2) for vect2 in
+                            other.transpose.vectors]
+                            for vect1 in self.vectors])
+
+        raise ShapeException
+
 
     def __pow__(self, other):
         if type(other) != type(1):

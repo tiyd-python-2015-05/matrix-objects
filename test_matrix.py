@@ -1,4 +1,5 @@
-from matrix import Matrix, ShapeException
+from matrix import Matrix
+from vector import Vector, ShapeException
 
 import nose
 from nose.tools import raises
@@ -53,9 +54,35 @@ def test_matrix_mult():
     assert identity * a_mat == a_mat * identity
     assert identity * a_mat == a_mat
 
-#def test_bad_matrix_mult():
+@raises(ShapeException)
+def test_bad_matrix_mult():
+    a_mat = Matrix([[1,2],[3,4]])
+    b_mat = Matrix([[1,3,5],[2,5,5]])
+    a_mat * b_mat
 
+def test_mat_vect_mult():
+    a_mat = Matrix([[1, 2], [3, 4]])
+    vect = Vector([3, 5])
+    assert a_mat * vect == Vector([13, 29])
 
+@raises(ShapeException)
+def test_bad_shape_vect_mult():
+    a_mat = Matrix([[1, 2], [3, 4]])
+    vect = Vector([3, 5, 6])
+    a_mat * vect
+
+@raises(ValueError)
+def test_bad_order_mult():
+    a_mat = Matrix([[1, 2], [3, 4]])
+    vect = Vector([3, 5])
+    vect * a_mat
+
+def test_generate():
+    def func():
+        return 1
+
+    a_mat = Matrix.generate((2,2),func)
+    assert a_mat == Matrix([[1, 1], [1, 1]])
 
 if __name__ == '__main__':
     nose.main()
