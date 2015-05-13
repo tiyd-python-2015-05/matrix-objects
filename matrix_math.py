@@ -45,7 +45,7 @@ class Matrix():
     def __add__(self, other):
         if self.shape() != other.shape():
             raise ShapeException
-        return Vector([self.my_list[i] + other.my_list[i] for i in range(self.shape()[0])])
+        return Matrix([self.my_list[i] + other.my_list[i] for i in range(self.shape()[0])])
 
     def __sub__(self, other):
         other = other * -1
@@ -66,7 +66,7 @@ class Matrix():
 
             y_transposed = [[row[i] for row in other.my_list] for i in range(len(other.my_list[0]))]
 
-            return [[dot(row, col) for col in y_transposed] for row in self.my_list]
+            return Matrix([[Vector(row).dot(Vector(col)) for col in y_transposed] for row in self.my_list])
 
         else:
             return None
