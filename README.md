@@ -1,4 +1,5 @@
 This module may be used with "import matrix_math" within a python script.
+
 test_matrix_math.py is nose and py.test compatible (run with 'nosetests' or 'py.test' respectively)
 
 ===========================

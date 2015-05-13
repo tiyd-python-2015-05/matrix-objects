@@ -53,6 +53,10 @@ class Matrix():
         self.my_list = my_list
         self.my_shape = self.shape()
 
+    @classmethod
+    def create(cls, size=(2,2), fn = lambda x,y: 1):
+        return Matrix([[fn(i,j) for j in range(size[0])] for i in range(size[1])])
+
     def __add__(self, other):
         if self.shape() != other.shape():
             raise ShapeException

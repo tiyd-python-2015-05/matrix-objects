@@ -1,6 +1,7 @@
 from matrix_math import *
 import math
 from nose.tools import raises
+import random
 
 def test_matrix_class():
     m = Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])
@@ -212,3 +213,16 @@ def test_hard_mode_matrix():
     Matrix([[1, 1, 1], [0, 0, 0]]) * Matrix([[1, 1], [2, 2], [3, 3]])
 
     assert not Matrix([[0, 1], [1, 0]]) == Matrix([[1, 1], [0, 0]]) # results in False
+
+def test_create_class_method():
+    m1 = Matrix.create()
+    assert m1 == Matrix([[1,1],[1,1]])
+    m2 = Matrix.create((3,3), lambda x,y: x+y)
+    assert m2 == Matrix([[0,1,2],[1,2,3],[2,3,4]])
+    random.seed(0)
+    def rnd(x,y):
+        return random.randint(0,9)
+    m3 = Matrix.create((3,2), rnd)
+    assert m3 != Matrix([[6,6],[0,4],[8,7]])
+    m2 = Matrix.create((3,3), lambda x,y: x**2+y**2)
+    assert m2 == Matrix([[0,1,4],[1,2,5],[4,5,8]])
