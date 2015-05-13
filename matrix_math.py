@@ -1,4 +1,5 @@
 import math
+from numbers import Number
 
 class ShapeException(Exception):
     pass
@@ -11,6 +12,8 @@ class Vector:
     def shape(self):
         return len(self.row),
 
+    def __repr__(self):
+        return ("Vector: {}".format(self.row))
 
     def __eq__(self, other):
         if isinstance(other, list):
@@ -46,7 +49,9 @@ class Vector:
         return math.sqrt(sum([num * num for num in self.row]))
 
     def dot(self, other):
-        pass
+        if self.shape != other.shape:
+            raise ShapeException("Vectors must be same shape.")
+        return sum([self.row[i] * other.row[i] for i in range(len(self.row))])
 
     # def vector_sum(*vectors):
     #     """vector_sum can take any number of vectors and add them together."""
@@ -81,9 +86,43 @@ class Matrix:
 
     @property
     def shape(self):
-        return (len(self.rows[0]), len(self.rows))
+        return (len(self.rows), len(self.rows[0]))
 
 
+
+    #
+    # def __eq__(self, other):
+    #
+
+
+#isinstance(other, Number)
+
+    def __eq__(self, other):
+        if isinstance(other, list):
+            return self.rows == other
+        return self.rows == other.rows
+
+    def __mul__(self, other):
+        if isinstance(other, Number):
+            mult_matr = [(Vector(self.rows[i]) * other) for i in range(len(self.rows))]
+            return Matrix(mult_matr)
+        elif isinstance(other, Matrix):
+#            mult_matr =
+#            return Matrix(mult_matr)
+            pass
+
+    def matrix_col(self, column):
+        col = [i[column] for i in self.rows]
+        return Vector(col)
+
+
+    # matrix_matrix_multiply_checks_shapes(matrix1, matrix2)
+    # mult_matrix = [matrix_col(matrix2, i) for i in range(len(matrix2[0]))]
+    # row_len = len(mult_matrix)
+    # list1 = [dot((matrix1[i]), (mult_matrix[j])) for i in range(len(matrix1)) for \
+    #         j in range(len(mult_matrix))]
+    # return [list1[i:i + row_len] for i in range(0, len(list1), row_len)]
+    #
 #
 # shape
 # addition and subtraction
