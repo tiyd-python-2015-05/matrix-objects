@@ -1,11 +1,13 @@
 import random
 import math
 
+
 class ShapeException(Exception):
     pass
 
 
 class Vector:
+
     def __init__(self, arg):
 
         if type(arg) != type([]):
@@ -25,12 +27,11 @@ class Vector:
 
         return cls([0] * length)
 
-
     @classmethod
     def random(cls, length, start, end, random=random.Random()):
         if type(length) != type(1) or \
-            type(start) != type(1) or \
-            type(end) != type(1):
+                type(start) != type(1) or \
+                type(end) != type(1):
 
             raise ValueError
 
@@ -41,8 +42,8 @@ class Vector:
 
     def __add__(self, other):
         if self.check_shape(other):
-            return Vector([entry1 + entry2 for entry1, entry2 \
-                    in zip(self.values, other.values)])
+            return Vector([entry1 + entry2 for entry1, entry2
+                           in zip(self.values, other.values)])
 
         raise ShapeException
 
@@ -59,8 +60,8 @@ class Vector:
 
     def __eq__(self, other):
         return (type(self) == type(other) and
-               self.shape == other. shape and
-               self.values == other.values)
+                self.shape == other. shape and
+                self.values == other.values)
 
     def dot(self, other):
         if self.check_shape(other):
@@ -71,10 +72,10 @@ class Vector:
 
     @property
     def magnitude(self):
-        return math.sqrt(dot(self,self))
+        return math.sqrt(dot(self, self))
 
     def __str__(self):
-        return ", ".join([str(val) for val in self.values])
+        return "[" + ", ".join([str(val) for val in self.values]) + "]"
 
     def __repr__(self):
         return self.__str__()

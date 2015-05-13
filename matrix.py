@@ -17,9 +17,13 @@ class Matrix:
 
     @classmethod
     def generate(cls, shape, gen_func):
+        """
+        creates a matrix whose values
+        are the result of calling gen_func
+        """
         if cls.check_shape(cls, shape):
             return cls([[gen_func() for _ in range(shape[0])]
-                    for _ in range(shape[1])])
+                        for _ in range(shape[1])])
 
         raise ShapeException
 
@@ -37,7 +41,7 @@ class Matrix:
         return cls(values)
 
     @classmethod
-    def random(cls, shape, start=0, end=10, random = random.Random()):
+    def random(cls, shape, start=0, end=10, random=random.Random()):
         """
         takes a random number generator
         and fills a matrix of a given shape
@@ -49,12 +53,11 @@ class Matrix:
         except ShapeException:
             raise
 
-
         for y_len in range(shape[0]):
-            vectors.append([random.randint(start,end) for _ in range(shape[1])])
+            vectors.append([random.randint(start, end)
+                            for _ in range(shape[1])])
 
         return cls(vectors)
-
 
     def check_vectors(self, vectors):
         """
@@ -90,9 +93,6 @@ class Matrix:
         except Exceptions:
 
             return ValueError("bad initial vectors")
-
-
-
 
     def check_shape(self, shape):
         """
@@ -136,23 +136,36 @@ class Matrix:
 
     @property
     def transpose(self):
+        """
+        the transpose of the matrix
+        """
         return Matrix([[row.values[i] for row in self.vectors]
-                        for i in range(self.shape[1])])
+                       for i in range(self.shape[1])])
 
     def scalar_mult(self, other):
+        """
+        multiplies the matrix by a constant
+        """
         return Matrix([vector * other for vector in self.vectors])
 
     def vector_mult(self, other):
+        """
+        multiplies a vector by self
+        and returns the resulting vector
+        """
         return Vector([vector.dot(other) for vector in self.vectors])
 
     def matrix_mult(self, other):
+        """
+        multiplies the matrix by a another matrix
+        and returns the resulting matrix
+        """
         if self.shape == other.shape:
             return Matrix([[vect1.dot(vect2) for vect2 in
                             other.transpose.vectors]
-                            for vect1 in self.vectors])
+                           for vect1 in self.vectors])
 
         raise ShapeException
-
 
     def __pow__(self, other):
         if type(other) != type(1):
@@ -161,7 +174,16 @@ class Matrix:
         if other < 1:
             raise TypeError("power must be positive")
 
-        # insert recursive multiply here
+        return self.remult(other)
+
+    def remult(self, num):
+        """
+        returns a matrix raised to a positive integer power
+        """
+        if num > 1:
+            return self.remult(num - 1) * self
+        else:
+            return self
 
     def __add__(self, other):
         try:
