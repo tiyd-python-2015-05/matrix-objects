@@ -103,7 +103,8 @@ class Vector:
         return math.sqrt(self.dot(self))
 
     def __str__(self):
-        return "[" + ", ".join([str(round(val, 3)) for val in self.values]) + "]"
+        return "[" + ", ".join([str(round(val, 3))
+                                for val in self.values]) + "]"
 
     def __repr__(self):
         return self.__str__()
