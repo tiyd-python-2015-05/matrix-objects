@@ -105,6 +105,7 @@ m3 = Matrix([[1, 2],
 m4 = Matrix([[1, 2, 3],
              [3, 2, 1]])
 
+
 def test_matrix_has_content():
     assert m1.values == [[1, 0, 0],
                          [0, 1, 0],
@@ -112,9 +113,9 @@ def test_matrix_has_content():
 
 
 def test_matrix_has_shape():
-    assert m1.shape == (3,3)
-    assert m3.shape == (3,2)
-    assert m4.shape == (2,3)
+    assert m1.shape == (3, 3)
+    assert m3.shape == (3, 2)
+    assert m4.shape == (2, 3)
 
 
 def test_matrix_equality():
@@ -152,6 +153,8 @@ v1 = Vector([2, 5, 4])
 v2 = Vector([1, 2, 3])
 v3 = Vector([3, 4])
 v4 = Vector([0, 1, 2])
+
+
 def test_matrix_vector_multiply():
     assert m1 * v1 == Vector([2, 5, 4])
     assert v1 * m1 == Vector([2, 5, 4])
@@ -181,8 +184,9 @@ def test_matrix_matrix_multiply():
                               [7, 6, 5]])
     assert m4 * m3 == Matrix([[8, 10],
                               [8, 10]])
-    assert Matrix([[1,2],[3,4]]) * Matrix([[1, 2, 3], [4, 5, 6]]) == \
-                                            Matrix([[9, 12, 15], [19, 26, 33]])
+    assert Matrix([[1, 2], [3, 4]]) * Matrix([[1, 2, 3], [4, 5, 6]]) == \
+        Matrix([[9, 12, 15], [19, 26, 33]])
+
 
 @raises(ShapeException)
 def test_matrix_matrix_multiply_checks_shapes():
@@ -191,8 +195,9 @@ def test_matrix_matrix_multiply_checks_shapes():
 
 @raises(ValueError)
 def test_matrix_creation():
-    #m1 = Matrix([[3, 4, 5], [2, 5, 7], [1, 2, "3"]])
+    m1 = Matrix([[3, 4, 5], [2, 5, 7], [1, 2, "3"]])
     m2 = Matrix([[3, 4, 5], [2], [1, 2, 3]])
+
 
 def test_from_function():
     def diagonal_ones(x, y):

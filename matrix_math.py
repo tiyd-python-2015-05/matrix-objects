@@ -9,7 +9,12 @@ class Vector:
 
     def __init__(self, values):
         self.values = self.is_vector(values)
-        self.shape = len(self.values),
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+    @property
+    def shape(self):
+        return len(self.values),
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
@@ -83,7 +88,12 @@ class Matrix:
 
     def __init__(self, values):
         self.values = self.is_matrix(values)
-        self.shape = len(self.values), len(self.values[0])
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+    @property
+    def shape(self):
+        return len(self.values), len(self.values[0])
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
