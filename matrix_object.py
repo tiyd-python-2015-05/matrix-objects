@@ -36,8 +36,12 @@ class Vector:
         if isinstance(other, Number):
             row_mul_scal = [self.row[i] * other for i in range(len(self.row))]
             return Vector(row_mul_scal)
+        # 
+        # elif isinstance(other, Vector):
+        #     vec_mul_vec = [self.row[i] * other.row[i] for i in range(len(self.row))]
+        #     return Vector(vec_mul_vec) #is this needed? Or can just return func
         else:
-            raise ShapeException("Vector must be * by scalar.")
+            raise ShapeException("Vector must be * by a scalar or Vector.")
 
     # def __repr__(self):
     #     return "Vector: {}".format(self.row)
@@ -74,8 +78,11 @@ class Matrix:
         if isinstance(other, Number):
             rows_mul_scal = [Vector(self.rows[i]) * other for i in range(len(self.rows))]
             return Matrix(rows_mul_scal)
+
         elif isinstance(other, Matrix):
-            pass
+            rows_mul_rows = [self.matrix_col(i) * Vector(self.rows[i]) for i in range(len(self.rows))]
+            return Matrix(rows_mul_rows)
+
         else:
             raise ShapeException("Matrix must be * by scalar.")
 
