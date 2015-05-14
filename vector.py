@@ -1,5 +1,6 @@
 import random
 import math
+from number import Number
 
 
 class ShapeException(Exception):
@@ -14,7 +15,7 @@ class Vector:
             raise ShapeException
 
         for item in arg:
-            if not (isinstance(item, int) or isinstance(item, float)):
+            if not (isinstance(item, Number)):
                 raise TypeError("List items not ints or floats")
 
         self.values = tuple(arg)

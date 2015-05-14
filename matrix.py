@@ -1,6 +1,7 @@
 from vector import Vector, ShapeException
 
 import random
+from numbers import Number
 
 
 class Matrix:
@@ -135,7 +136,7 @@ class Matrix:
             raise
 
     def __mul__(self, other):
-        if isinstance(other, int) or isinstance(other, float):
+        if isinstance(other, Number):
             return self.scalar_mult(other)
 
         if isinstance(other, Vector):
