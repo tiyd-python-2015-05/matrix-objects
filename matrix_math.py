@@ -54,8 +54,9 @@ class Matrix():
         self.my_shape = self.shape()
 
     @classmethod
-    def create(cls, size=(2,2), fn = lambda x,y: 1):
-        return Matrix([[fn(i,j) for j in range(size[0])] for i in range(size[1])])
+    def create(cls, size=(2, 2), fn = lambda x, y: 1):
+        return Matrix([[fn(i, j) for j in range(size[0])]
+                       for i in range(size[1])])
 
     def __add__(self, other):
         if self.shape() != other.shape():
@@ -96,10 +97,14 @@ class Matrix():
         return self.my_list == other.my_list
 
     def __repr__(self):
-        return 'Vector({})'.format(self.my_list)
+        return 'Matrix({})'.format(self.my_list)
 
     def shape(self):
         try:
             return (len(self.my_list), len(self.my_list[0]))
         except (TypeError, IndexError):
             raise ValueError('Not a 2d matrix')
+
+    def rotate(self):
+        tuple_list = list(zip(*self.my_list[::-1]))
+        return Matrix([list(row) for row in tuple_list])

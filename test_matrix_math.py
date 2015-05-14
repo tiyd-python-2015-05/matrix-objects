@@ -1,25 +1,33 @@
-from matrix_math import *
+from matrix_math import Matrix, Vector, ShapeException
 import math
 from nose.tools import raises
 import random
 
-def test_matrix_class():
-    m = Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])
 
 def test_vector_class():
     v = Vector([1, 5])
+    assert isinstance(v, Vector)
+
+
+def test_matrix_class():
+    m = Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])
+    assert isinstance(m, Matrix)
+
 
 @raises(ValueError)
 def test_2d_vector_exception():
     v = Vector([[0, 1, 0], [1, 0, 0], [0, 0, 1]])
 
+
 @raises(ValueError)
 def test_empty_vector_exception():
     v = Vector([])
 
+
 @raises(ValueError)
 def test_1d_matrix_exception():
-    m = Matrix([1,5])
+    m = Matrix([1, 5])
+
 
 @raises(ValueError)
 def test_empty_matrix_exception():
@@ -36,32 +44,37 @@ y = Vector([10, 20, 30])
 z = Vector([0, 0, 0])
 
 A = Matrix([[1, 0, 0],
-     [0, 1, 0],
-     [0, 0, 1]])
+            [0, 1, 0],
+            [0, 0, 1]])
 B = Matrix([[1, 2, 3],
-     [4, 5, 6],
-     [7, 8, 9]])
+            [4, 5, 6],
+            [7, 8, 9]])
 C = Matrix([[1, 2],
-     [2, 1],
-     [1, 2]])
+            [2, 1],
+            [1, 2]])
 D = Matrix([[1, 2, 3],
-     [3, 2, 1]])
+            [3, 2, 1]])
+
 
 def test_matrix_class_and_shape():
     assert m.shape() == (2,)
     assert v.shape() == (3,)
 
+
 def test_matrix_shape():
     m = Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])
-    assert m.shape() == (3,3)
-    m = Matrix([[1,2],[3,4],[5,6]])
-    assert m.shape() == (3,2)
+    assert m.shape() == (3, 3)
+    m = Matrix([[1, 2], [3, 4], [5, 6]])
+    assert m.shape() == (3, 2)
     assert A.shape() == (3, 3)
     assert C.shape() == (3, 2)
     assert D.shape() == (2, 3)
+
+
 def test_vector_eq():
-    p = Vector([3,4])
+    p = Vector([3, 4])
     assert m == p
+
 
 def test_vector_add():
     """
@@ -73,8 +86,10 @@ def test_vector_add():
     assert u + y == Vector([11, 21, 31])
     assert u + z == u
 
+
 def test_vector_add_is_communicative():
     assert w + y == y + w
+
 
 def test_vector_sub():
     """
@@ -87,18 +102,20 @@ def test_vector_sub():
     assert y - z == y
     assert w - u == (z - (u - w))
 
+
 def test_hard_mode_vector():
     Vector([1, 2]) + Vector([0, 4])
     Vector([1, 2]) - Vector([0, 4])
     Vector([1, 2]) * 3
 
-    assert Vector([1, 2]) == Vector([1, 2]) # results in True
+    assert Vector([1, 2]) == Vector([1, 2])  # results in True
 
 
 @raises(ShapeException)
 def test_vector_sub_checks_shapes():
     """Shape rule: the vectors must be the same size."""
     m - v
+
 
 def test_dot():
     """
@@ -126,6 +143,7 @@ def test_vector_multiply():
     assert v * 0.5 == Vector([0.5, 1.5, 0])
     assert m * 2 == Vector([6, 8])
 
+
 def test_magnitude():
     """
     magnitude([a b])  = sqrt(a^2 + b^2)
@@ -138,8 +156,6 @@ def test_magnitude():
     assert z.magnitude() == 0
 
 
-
-
 def test_shape_matrices():
     """shape should take a vector or matrix and return a tuple with the
     number of rows (for a vector) or the number of rows and columns
@@ -147,6 +163,8 @@ def test_shape_matrices():
     assert A.shape() == (3, 3)
     assert C.shape() == (3, 2)
     assert D.shape() == (2, 3)
+
+
 def test_matrix_scalar_multiply():
     """
     [[a b]   *  Z   =   [[a*Z b*Z]
@@ -190,11 +208,11 @@ def test_matrix_matrix_multiply():
     """
     assert A * B == B
     assert B * C == Matrix([[8, 10],
-                                            [20, 25],
-                                            [32, 40]])
+                            [20, 25],
+                            [32, 40]])
     assert C * D == Matrix([[7, 6, 5],
-                                            [5, 6, 7],
-                                            [7, 6, 5]])
+                            [5, 6, 7],
+                            [7, 6, 5]])
     assert D * C == Matrix([[8, 10], [8, 10]])
 
 
@@ -212,17 +230,26 @@ def test_hard_mode_matrix():
     Matrix([[0, 1], [1, 0]]) * Vector([1, 2])
     Matrix([[1, 1, 1], [0, 0, 0]]) * Matrix([[1, 1], [2, 2], [3, 3]])
 
-    assert not Matrix([[0, 1], [1, 0]]) == Matrix([[1, 1], [0, 0]]) # results in False
+    assert not Matrix([[0, 1], [1, 0]]) == Matrix([[1, 1], [0, 0]])
+    # results in False
+
 
 def test_create_class_method():
     m1 = Matrix.create()
-    assert m1 == Matrix([[1,1],[1,1]])
-    m2 = Matrix.create((3,3), lambda x,y: x+y)
-    assert m2 == Matrix([[0,1,2],[1,2,3],[2,3,4]])
+    assert m1 == Matrix([[1, 1], [1, 1]])
+    m2 = Matrix.create((3, 3), lambda x, y: x + y)
+    assert m2 == Matrix([[0, 1, 2], [1, 2, 3], [2, 3, 4]])
     random.seed(0)
-    def rnd(x,y):
-        return random.randint(0,9)
-    m3 = Matrix.create((3,2), rnd)
-    assert m3 != Matrix([[6,6],[0,4],[8,7]])
-    m2 = Matrix.create((3,3), lambda x,y: x**2+y**2)
-    assert m2 == Matrix([[0,1,4],[1,2,5],[4,5,8]])
+
+    def rnd(x, y):
+        return random.randint(0, 9)
+    m3 = Matrix.create((3, 2), rnd)
+    assert m3 != Matrix([[6, 6], [0, 4], [8, 7]])
+    m2 = Matrix.create((3, 3), lambda x, y: x ** 2 + y ** 2)
+    assert m2 == Matrix([[0, 1, 4], [1, 2, 5], [4, 5, 8]])
+
+
+def test_matrix_rotate():
+    assert A.rotate() == Matrix([[0, 0, 1],
+                                 [0, 1, 0],
+                                 [1, 0, 0]])
