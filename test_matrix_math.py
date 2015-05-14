@@ -155,52 +155,58 @@ def test_matrix_scalar_multiply():
     """
     assert C * 3 == C_Result
 
-
-# def test_matrix_vector_multiply():
-#     """
-#     [[a b]   *  [x   =   [a*x+b*y
-#      [c d]       y]       c*x+d*y
-#      [e f]                e*x+f*y]
-#
-#     Matrix * Vector = Vector
-#     """
-#     assert matrix_vector_multiply(A, [2, 5, 4]) == [2, 5, 4]
-#     assert matrix_vector_multiply(B, [1, 2, 3]) == [14, 32, 50]
-#     assert matrix_vector_multiply(C, [3, 4]) == [11, 10, 11]
-#     assert matrix_vector_multiply(D, [0, 1, 2]) == [8, 4]
-#
-#
-# @raises(ShapeException)
-# def test_matrix_vector_multiply_checks_shapes():
-#     """Shape Rule: The number of rows of the vector must equal the number of
-#     columns of the matrix."""
-#     matrix_vector_multiply(C, [1, 2, 3])
-#
-
-def test_matrix_matrix_multiply():
+Test_Vec_A = Vector([2, 5, 4])
+Test_Vec_B = Vector([1, 2, 3])
+Test_Vec_C = Vector([3, 4])
+Test_Vec_D = Vector([0, 1, 2])
+def test_matrix_vector_multiply():
     """
-    [[a b]   *  [[w x]   =   [[a*w+b*y a*x+b*z]
-     [c d]       [y z]]       [c*w+d*y c*x+d*z]
-     [e f]                    [e*w+f*y e*x+f*z]]
+    [[a b]   *  [x   =   [a*x+b*y
+     [c d]       y]       c*x+d*y
+     [e f]                e*x+f*y]
 
-    Matrix * Matrix = Matrix
+    Matrix * Vector = Vector
     """
+    assert A * Test_Vec_A == [2, 5, 4]
+    assert B * Test_Vec_B == [14, 32, 50]
+    assert C * Test_Vec_C == [11, 10, 11]
+    assert D * Test_Vec_D == [8, 4]
 
 
+Test_Vec = Vector([1, 2 ,3])
 
 
-    assert A * B == B
-    assert B * C == [[8, 10],
-                    [20, 25],
-                    [32, 40]]
-    assert C * D == [[7, 6, 5],
-                    [5, 6, 7],
-                    [7, 6, 5]]
-    assert D * C == [[8, 10],
-                    [8, 10]]
+@raises(ShapeException)
+def test_matrix_vector_multiply_checks_shapes():
+    """Shape Rule: The number of rows of the vector must equal the number of
+    columns of the matrix."""
+    C * Test_Vec
 
 
-
+# def test_matrix_matrix_multiply():
+#     """
+#     [[a b]   *  [[w x]   =   [[a*w+b*y a*x+b*z]
+#      [c d]       [y z]]       [c*w+d*y c*x+d*z]
+#      [e f]                    [e*w+f*y e*x+f*z]]
+#
+#     Matrix * Matrix = Matrix
+#     """
+#
+#
+#
+#
+#     assert A * B == B
+#     assert B * C == [[8, 10],
+#                     [20, 25],
+#                     [32, 40]]
+#     assert C * D == [[7, 6, 5],
+#                     [5, 6, 7],
+#                     [7, 6, 5]]
+#     assert D * C == [[8, 10],
+#                     [8, 10]]
+#
+#
+#
 def test_matrix_col():
     """
            0 1  <- rows

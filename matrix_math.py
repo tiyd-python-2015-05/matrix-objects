@@ -34,11 +34,12 @@ class Vector:
         return Vector(sub_vec)
 
     def __mul__(self, other):
-        if isinstance(other, int) or isinstance(other, float):
+        if isinstance(other, Number):
             mul_vec = ([other * self.row[i] for i in range(len(self.row))])
             return Vector(mul_vec)
         else:
             raise ShapeException("Vectors can only be multiplied by scalar")
+
 
     def magnitude(self):
         """
@@ -106,6 +107,11 @@ class Matrix:
         if isinstance(other, Number):
             mult_matr = [(Vector(self.rows[i]) * other) for i in range(len(self.rows))]
             return Matrix(mult_matr)
+        elif isinstance(other, Vector):
+#            if self.shape[0] != other.shape:
+#                raise ShapeException("Columns of matrix not equal vector shape")
+            vec = ([Vector(self.rows[i]).dot(other) for i in range(len(self.rows))])
+            return Vector(vec)
         elif isinstance(other, Matrix):
 #            mult_matr =
 #            return Matrix(mult_matr)
@@ -114,7 +120,13 @@ class Matrix:
     def matrix_col(self, column):
         col = [i[column] for i in self.rows]
         return Vector(col)
+    """
+    [[a b]   *  [x   =   [a*x+b*y
+     [c d]       y]       c*x+d*y
+     [e f]                e*x+f*y]
 
+    Matrix * Vector = Vector
+    """
 
     # matrix_matrix_multiply_checks_shapes(matrix1, matrix2)
     # mult_matrix = [matrix_col(matrix2, i) for i in range(len(matrix2[0]))]
