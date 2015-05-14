@@ -1,4 +1,5 @@
 import math
+from numbers import Number
 class ShapeException(Exception):
     pass
 
@@ -98,7 +99,7 @@ class Matrix:
             if len(a[0]) != len(b):
                 raise ShapeException()
             return [[Vector.dot(Vector(a[i]),Vector([l[j] for l in b])) for j in range(len(b[0]))] for i in range(len(a))]
-        elif type(other) == int:
+        elif isinstance(other, Number):
             a = self.contents
             return[Vector(i) * other for i in a]
         else:

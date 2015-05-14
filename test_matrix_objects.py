@@ -101,6 +101,7 @@ def test_dot_checks_shapes():
 
 def test_matrix_scalar_multiply():
     assert C * 3 == [[3, 6], [6, 3], [3, 6]]
+    assert D * 0.5 == [[.5, 1, 1.5], [1.5, 1, 0.5]]
 
 def test_matrix_vector_multiply():
     assert A * Vector([2, 5, 4]) == [2, 5, 4]
