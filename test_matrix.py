@@ -63,12 +63,24 @@ def test_matrix_add_mult():
                     [2, 3, 1],
                     [3, 1, 2]])
 
+    b_mat = Matrix([[1, 1, 1],
+                    [1, 1, 1],
+                    [1, 1, 1]])
+
     assert identity * a_mat == a_mat * identity
     assert identity * a_mat == a_mat
 
     assert identity + a_mat == Matrix([[2, 3, 2],
                                       [2, 4, 1],
                                       [3, 1, 3]])
+
+    assert identity + a_mat == a_mat + identity
+
+    assert a_mat - identity == Matrix([[0, 3, 2],
+                                       [2, 2, 1],
+                                       [3, 1, 1]])
+
+    assert a_mat * b_mat != b_mat * a_mat
 
 
 @raises(ShapeException)

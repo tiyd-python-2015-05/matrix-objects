@@ -57,6 +57,7 @@ def test_random():
 
 def test_vector_add():
     assert Vector([1, 3, 3]) + Vector([1, 2, 3]) == Vector([2, 5, 6])
+    assert Vector([1, 3, 3]) - Vector([1, 2, 3]) == Vector([0, 1, 0])
 
 
 @raises(ShapeException)

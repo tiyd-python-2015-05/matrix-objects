@@ -58,6 +58,9 @@ class Vector:
 
         raise ShapeException
 
+    def __sub__(self, other):
+        return self.__add__(other * -1)
+
     def __mul__(self, other):
         if isinstance(other, int) or isinstance(other, float):
             return self.scalar_mult(other)

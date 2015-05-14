@@ -70,6 +70,12 @@ class Matrix:
         """
         vect_type = [item for item in vectors if isinstance(item, Vector)]
         list_type = [item for item in vectors if isinstance(item, list)]
+        none_type = [item for item in vectors
+                     if item not in vect_type and item not in list_type]
+
+        if none_type:
+            raise TypeError("supplied vectors are of incorrect type")
+
         try:
             if list_type and not vect_type:
                 lengths = [len(item) for item in vectors]
@@ -197,6 +203,9 @@ class Matrix:
 
         except Exception:
             raise
+
+    def __sub__(self, other):
+        return self.__add__(other * -1)
 
     def __str__(self):
         return "\n".join([vector.__str__() for vector in self.vectors])
