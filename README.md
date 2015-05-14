@@ -41,9 +41,9 @@ After completing this assignment, you should be able to:
 
 Implement two object types, `Matrix` and `Vector`. These objects should implement:
 
-* shape
-* addition and subtraction
-* multiplication by a scalar
+<!-- * shape -->
+<!-- * addition and subtraction -->
+<!-- * multiplication by a scalar -->
 * matrix multiplication by a vector
 * matrix multiplication by a matrix
 * vector dot product
