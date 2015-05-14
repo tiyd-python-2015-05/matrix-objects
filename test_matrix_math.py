@@ -18,13 +18,20 @@ def is_equal(x, y, tolerance=0.001):
 
 
 m = Vector([3, 4])
+ms = m.shape()
 n = Vector([5,0])
+ns = n.shape()
 
 v = Vector([1,3,0])
+vs = v.shape()
 w = Vector([0,2,4])
+ws = w.shape()
 u = Vector([1,1,1])
+us = u.shape()
 y = Vector([10,20,30])
+ys = y.shape()
 z = Vector([0,0,0])
+zs = z.shape()
 
 
 def test_shape_vectors():
@@ -42,9 +49,9 @@ def test_vector_add():
 
     Matrix + Matrix = Matrix
     """
-    assert add(v, w) == [1, 5, 4]
-    assert vector_add(u, y) == [11, 21, 31]
-    assert vector_add(u, z) == u
+    assert v.vector_add(w) == [1, 5, 4]
+    assert u.vector_add(y) == [11, 21, 31]
+    assert u.vector_add(z) == u
 
 #
 # def test_vector_add_is_communicative():

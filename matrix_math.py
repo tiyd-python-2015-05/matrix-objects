@@ -13,17 +13,17 @@ class Vector:
         try:
             return (len(self.vector), len(self.vector[0]))
         except TypeError:
-            return (len(self.vector),)
+            return (len(self.vector), )
 
 
     def vector_add(self, other):
-        if shape(self.vector) != shape(other.vector):
+        if Vector.shape(self.vector) != Vector.shape(other.vector):
             raise ShapeException()
         return [self.vector[i] + other.vector[i] for i in range(len(self.vector))]
 
 
     def vector_sub(self, other):
-        if Vshape(self.vector) != shape(self.other):
+        if shape(self.vector) != shape(self.other):
             raise ShapeException()
         return [self.vector[i] - other.vector[i] for i in range(len(self.vector))]
 
