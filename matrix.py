@@ -28,6 +28,12 @@ class Matrix:
         raise ShapeException
 
     @classmethod
+    def from_function(cls, shape, func):
+        if cls.check_shape(cls, shape):
+            return cls([[func(i, j) for j in range(shape[0])] for
+                        i in range(shape[1])])
+
+    @classmethod
     def zeroes(cls, shape):
         """
         Generates a matrix of zeroes with the given shape
