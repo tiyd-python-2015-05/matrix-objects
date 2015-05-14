@@ -61,6 +61,12 @@ class Vector:
     def __sub__(self, other):
         return self.__add__(other * -1)
 
+    def __iadd__(self, other):
+        return self.__add__(other)
+
+    def __isub__(self, other):
+        return self.__sub__(other)
+
     def __mul__(self, other):
         if isinstance(other, int) or isinstance(other, float):
             return self.scalar_mult(other)

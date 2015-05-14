@@ -207,6 +207,12 @@ class Matrix:
     def __sub__(self, other):
         return self.__add__(other * -1)
 
+    def __iadd__(self, other):
+        return self.__add__(other)
+
+    def __isub__(self, other):
+        return self.__sub__(other)
+
     def __str__(self):
         return "\n".join([vector.__str__() for vector in self.vectors])
 
