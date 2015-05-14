@@ -6,7 +6,7 @@ import nose
 
 def test_zeroes():
     zeroes = Vector.zeroes(10)
-    assert zeroes.values == [0] * 10
+    assert zeroes.values == tuple([0] * 10)
 
 
 def test_check_shape():

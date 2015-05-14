@@ -17,7 +17,7 @@ class Vector:
             if not (isinstance(item, int) or isinstance(item, float)):
                 raise TypeError("List items not ints or floats")
 
-        self.values = arg
+        self.values = tuple(arg)
         self.shape = (len(arg),)
 
     @classmethod
