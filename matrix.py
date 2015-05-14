@@ -212,7 +212,14 @@ class Matrix:
             raise
 
     def __sub__(self, other):
-        return self.__add__(other * -1)
+        return self.__add__(other.__neg__())
+
+    def __neg__(self):
+        return self.__mul__(-1)
+
+    def __rmul__(self, other):
+        if isinstance(other, Number):
+            return self.__mul__(other)
 
     def __iadd__(self, other):
         return self.__add__(other)

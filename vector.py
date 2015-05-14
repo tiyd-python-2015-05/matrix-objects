@@ -1,6 +1,6 @@
 import random
 import math
-from number import Number
+from numbers import Number
 
 
 class ShapeException(Exception):
@@ -60,7 +60,10 @@ class Vector:
         raise ShapeException
 
     def __sub__(self, other):
-        return self.__add__(other * -1)
+        return self.__add__(other.__neg__())
+
+    def __neg__(self):
+        return self.__mul__(-1)
 
     def __iadd__(self, other):
         return self.__add__(other)
@@ -75,6 +78,10 @@ class Vector:
         else:
             raise ValueError("Cannot multiply {} and {}".format(type(self),
                                                                 type(other)))
+
+    def __rmul__(self, other):
+        if isinstance(other, Number):
+            return self.__mul__(other)
 
     def scalar_mult(self, other):
         """
