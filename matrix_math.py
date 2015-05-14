@@ -21,7 +21,8 @@ class Vector():
         if type(other) is int or type(other) is float:
             return Vector([i * other for i in self.my_list])
         else:
-            return None
+            raise ValueError('Vector can only be multiplied by \
+                              scalar (int/float)')
 
     def __eq__(self, other):
         return self.my_list == other.my_list
@@ -91,7 +92,8 @@ class Matrix():
                             for col in y_transposed] for row in self.my_list])
 
         else:
-            return None
+            raise ValueError('Matrix can only be multiplied by '
+                               'scalar, Vector, or Matrix')
 
     def __eq__(self, other):
         return self.my_list == other.my_list

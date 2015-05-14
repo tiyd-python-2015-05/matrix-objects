@@ -253,3 +253,26 @@ def test_matrix_rotate():
     assert A.rotate() == Matrix([[0, 0, 1],
                                  [0, 1, 0],
                                  [1, 0, 0]])
+
+
+# Add tests to get coverage > 93%
+@raises(ValueError)
+def test_vector_bad_multiplication_is_none():
+    assert m * '1' is None
+
+@raises(ValueError)
+def test_matrix_bad_multiplication_is_none():
+    assert A * '1' is None
+
+def test_vector_matrix_repr():
+    assert 'Vector(' in repr(m)
+    assert 'Matrix(' in repr(A)
+
+@raises(ShapeException)
+def test_vector_shape_exceptions_add():
+    m + v
+
+
+@raises(ShapeException)
+def test_matrix_shape_exceptions_add():
+    A + C
