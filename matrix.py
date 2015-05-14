@@ -7,7 +7,7 @@ class Matrix:
 
     def __init__(self, vectors, shape=None):
         if vectors:
-            self.vectors = self.check_vectors(vectors)
+            self.vectors = tuple(self.check_vectors(vectors))
             self.shape = (len(vectors), self.vectors[0].shape[0])
 
         else:
