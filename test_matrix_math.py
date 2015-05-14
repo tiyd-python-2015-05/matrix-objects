@@ -87,8 +87,18 @@ def test_vector_works_with_floats():
 
 
 @raises(ValueError)
-def test_vector_creation():
+def test_vector_creation_list_not_all_numbers():
     v1 = Vector([1, 2, "3"])
+
+
+@raises(ValueError)
+def test_vector_creation_not_a_list():
+    v2 = Vector("hello")
+
+
+@raises(ValueError)
+def test_vector_creation2():
+    v3 = Vector(1)
 
 m1 = Matrix([[1, 0, 0],
              [0, 1, 0],
@@ -194,9 +204,18 @@ def test_matrix_matrix_multiply_checks_shapes():
 
 
 @raises(ValueError)
-def test_matrix_creation():
+def test_matrix_creation_not_all_list_items_are_numbers():
     m1 = Matrix([[3, 4, 5], [2, 5, 7], [1, 2, "3"]])
+
+
+@raises(ValueError)
+def test_matrix_creation_not_all_lists_the_same_length():
     m2 = Matrix([[3, 4, 5], [2], [1, 2, 3]])
+
+
+@raises(ValueError)
+def test_matrix_creation_not_a_list():
+    m2 = Matrix("hello")
 
 
 def test_from_function():
