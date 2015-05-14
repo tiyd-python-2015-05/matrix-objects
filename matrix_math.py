@@ -1,19 +1,24 @@
 import math
 from numbers import Number
 
+
 class ShapeException(Exception):
     pass
+
 
 class Vector:
     def __init__(self, row):
         self.row = row
 
+
     @property
     def shape(self):
         return len(self.row),
 
+
     def __repr__(self):
         return ("Vector: {}".format(self.row))
+
 
     def __eq__(self, other):
         if isinstance(other, list):
@@ -21,17 +26,20 @@ class Vector:
         else:
             return self.row == other.row
 
+
     def __add__(self, other):
         if self.shape != other.shape:
             raise ShapeException("Vectors must be same shape.")
         sum_vec = ([self.row[i] + other.row[i] for i in range(len(self.row))])
         return Vector(sum_vec)
 
+
     def __sub__(self, other):
         if self.shape != other.shape:
             raise ShapeException("Vectors must be same shape.")
         sub_vec = ([self.row[i] - other.row[i] for i in range(len(self.row))])
         return Vector(sub_vec)
+
 
     def __mul__(self, other):
         if isinstance(other, Number):
@@ -49,35 +57,11 @@ class Vector:
         """
         return math.sqrt(sum([num * num for num in self.row]))
 
+
     def dot(self, other):
         if self.shape != other.shape:
             raise ShapeException("Vectors must be same shape.")
         return sum([self.row[i] * other.row[i] for i in range(len(self.row))])
-
-    # def vector_sum(*vectors):
-    #     """vector_sum can take any number of vectors and add them together."""
-    #     vector_sum_checks_shapes(vectors)
-    #     sum = vectors[0]
-    #     for vec in vectors[1:]:
-    #         sum = vector_add(sum, vec)
-    #     return sum
-
-    # def __eq__(self, other):
-    #     if isinstance(other, list):
-    #         return self.row == other
-    #     else:
-    #         return self.row == other.row
-
-    # def shape_vectors(self):
-    #
-    #     if isinstance(self, Vector):
-    #         return (len(self.row),)
-    #     elif isinstance(self, Matrix):
-    #         return (len(self.rows), len((self.rows)[0]))
-    #     else:
-    #         pass
-
-
 
 
 
@@ -90,18 +74,15 @@ class Matrix:
         return (len(self.rows), len(self.rows[0]))
 
 
+    def __repr__(self):
+        return ("Matrix: {}".format(self.rows))
 
-    #
-    # def __eq__(self, other):
-    #
-
-
-#isinstance(other, Number)
 
     def __eq__(self, other):
         if isinstance(other, list):
             return self.rows == other
-        return self.rows == other.rows
+        return self.rows[0] == other.rows[0]
+
 
     def __mul__(self, other):
         if isinstance(other, Number):
@@ -113,9 +94,25 @@ class Matrix:
             vec = ([Vector(self.rows[i]).dot(other) for i in range(len(self.rows))])
             return Vector(vec)
         elif isinstance(other, Matrix):
-#            mult_matr =
-#            return Matrix(mult_matr)
-            pass
+        #    matr = ([[Vector(self.rows[i]).dot(other.matrix_col(j)) for j in
+        #            range(other.matrix_col(0).shape[0])] for i in range(len(self.rows))])
+            matr = ([[(Vector(self.rows[i])).dot(other.matrix_col(j)) for j in
+                        range(len(self.rows))] for i in range(len(other.rows[0]))])
+
+            #other.matrix_col(0)).row
+        #    matr = ([[Vector(self.rows[i]).dot(other.matrix_col(j)) for j in Vector(self.rows[i])] for j in (other.matrix_col(j))])
+            return Matrix(matr)
+        #    return [[dot(a[i],matrix_col(b, j)) for j in range(len(b[0]))] for i in range(len(a))]
+
+
+    """
+    [[a b]   *  [[w x]   =   [[a*w+b*y a*x+b*z]
+     [c d]       [y z]]       [c*w+d*y c*x+d*z]
+     [e f]                    [e*w+f*y e*x+f*z]]
+
+    Matrix * Matrix = Matrix
+    """
+
 
     def matrix_col(self, column):
         col = [i[column] for i in self.rows]
@@ -128,13 +125,6 @@ class Matrix:
     Matrix * Vector = Vector
     """
 
-    # matrix_matrix_multiply_checks_shapes(matrix1, matrix2)
-    # mult_matrix = [matrix_col(matrix2, i) for i in range(len(matrix2[0]))]
-    # row_len = len(mult_matrix)
-    # list1 = [dot((matrix1[i]), (mult_matrix[j])) for i in range(len(matrix1)) for \
-    #         j in range(len(mult_matrix))]
-    # return [list1[i:i + row_len] for i in range(0, len(list1), row_len)]
-    #
 #
 # shape
 # addition and subtraction
@@ -143,3 +133,18 @@ class Matrix:
 # matrix multiplication by a matrix
 # vector dot product
 # vector magnitude
+
+if __name__ == "__main__":
+    drake_matrix = Matrix([[0.00, 0.25, 0.60, 0.80, 0.15, 0.00],
+                           [0.70, 0.00, 0.00, 0.00, 0.00, 0.00],
+                           [0.00, 0.95, 0.00, 0.00, 0.00, 0.00],
+                           [0.00, 0.00, 0.90, 0.00, 0.00, 0.00],
+                           [0.00, 0.00, 0.00, 0.90, 0.00, 0.00],
+                           [0.00, 0.00, 0.00, 0.00, 0.50, 0.00]])
+
+    population_vector = Vector([10, 0, 0, 0, 0, 0])
+
+    for i in range(10):
+        population_vector = drake_matrix * population_vector
+        print("After {} years, the population vector is {}".format((i*2+2),
+                population_vector))

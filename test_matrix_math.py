@@ -134,7 +134,8 @@ C = Matrix([[1, 2],
      [1, 2]])
 D = Matrix([[1, 2, 3],
      [3, 2, 1]])
-
+E = Matrix([[1, 2, 3],
+     [3, 2, 1]])
 
 def test_shape_matrices():
     """shape should take a vector or matrix and return a tuple with the
@@ -143,6 +144,12 @@ def test_shape_matrices():
     assert A.shape == (3, 3)
     assert C.shape == (3, 2)
     assert D.shape == (2, 3)
+
+
+
+def test_matrix_equality():
+    assert D == E
+    assert A != B
 
 C_Result = Matrix([[3, 6], [6, 3], [3, 6]])
 
@@ -155,10 +162,13 @@ def test_matrix_scalar_multiply():
     """
     assert C * 3 == C_Result
 
+
 Test_Vec_A = Vector([2, 5, 4])
 Test_Vec_B = Vector([1, 2, 3])
 Test_Vec_C = Vector([3, 4])
 Test_Vec_D = Vector([0, 1, 2])
+
+
 def test_matrix_vector_multiply():
     """
     [[a b]   *  [x   =   [a*x+b*y
@@ -183,30 +193,29 @@ def test_matrix_vector_multiply_checks_shapes():
     C * Test_Vec
 
 
-# def test_matrix_matrix_multiply():
-#     """
-#     [[a b]   *  [[w x]   =   [[a*w+b*y a*x+b*z]
-#      [c d]       [y z]]       [c*w+d*y c*x+d*z]
-#      [e f]                    [e*w+f*y e*x+f*z]]
-#
-#     Matrix * Matrix = Matrix
-#     """
-#
-#
-#
-#
-#     assert A * B == B
-#     assert B * C == [[8, 10],
-#                     [20, 25],
-#                     [32, 40]]
-#     assert C * D == [[7, 6, 5],
-#                     [5, 6, 7],
-#                     [7, 6, 5]]
-#     assert D * C == [[8, 10],
-#                     [8, 10]]
-#
-#
-#
+BC_Result = Matrix([[8, 10],
+                [20, 25],
+                [32, 40]])
+CD_Result = Matrix([[7, 6, 5],
+                [5, 6, 7],
+                [7, 6, 5]])
+DC_Result = Matrix([[8, 10],
+                [8, 10]])
+
+def test_matrix_matrix_multiply():
+    """
+    [[a b]   *  [[w x]   =   [[a*w+b*y a*x+b*z]
+     [c d]       [y z]]       [c*w+d*y c*x+d*z]
+     [e f]                    [e*w+f*y e*x+f*z]]
+
+    Matrix * Matrix = Matrix
+    """
+    assert A * B == B
+    assert B * C == BC_Result
+    assert C * D == CD_Result
+    assert D * C == DC_Result
+
+
 def test_matrix_col():
     """
            0 1  <- rows
